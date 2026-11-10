@@ -1,0 +1,353 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yojana Setu | Government Scheme Registration</title>
+    <link rel="stylesheet" href="{% static 'registration/css/registration.css' %}">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <img src="{% static 'images/setulogoo.png' %}" alt="Yojana Setu Logo" class="navbar-logo">
+                    <div class="logo-text">
+                        <h1>Yojana Setu</h1>
+                        <p>GOVERNMENT PLATFORM</p>
+                    </div>
+                </div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="{% url 'homepage:home' %}">Home</a></li>
+                        <li><a href="{% url 'scheme_categories' %}">Schemes</a></li>
+                        <li><a href="{% url 'chatbot_page' %}">Recommendation</a></li>
+                        <li><a href="#">Vacancies</a></li>
+                        <li><a href="#">About</a></li>
+                    </ul>
+                </nav>
+                <div class="nav-actions">
+                    <a href="{% url 'user_registration:register' %}" class="btn-login">Register</a>
+                    <a href="#" class="btn-login">Login</a>
+                    <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Government Banner -->
+    <div class="government-banner">
+        <div class="flag-container">
+            <div class="saffron-stripe"></div>
+            <div class="white-stripe">
+                <div class="ashoka-chakra">
+                    <div class="chakra-wheel">
+                        {% for i in "123456789101112" %}
+                        <div class="spoke"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="green-stripe"></div>
+        </div>
+        {% comment %} <div class="portal-title">
+            <h1><i class="fas fa-landmark"></i> Yojana Setu</h1>
+            <p class="tagline">Government Scheme Registration Portal</p>
+        </div> {% endcomment %}
+    </div>
+
+    <!-- Registration Form -->
+    <div class="registration-container">
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h2><i class="fas fa-user-plus"></i> Create Your Account</h2>
+                <p class="subtitle">Register once to access all eligible government schemes</p>
+
+                <!-- Progress Indicator -->
+                <div class="progress-indicator">
+                    <div class="step active">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Personal Details</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Eligibility</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Security</div>
+                    </div>
+                </div>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" id="registrationForm">
+                {% csrf_token %}
+
+                <!-- Personal Details Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-id-card"></i> Personal Details</h3>
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="full_name"><i class="fas fa-user"></i> Full Name *</label>
+                        <input type="text" id="full_name" name="full_name" required placeholder="Enter your full name as per Aadhar">
+                        <div class="form-hint">As per Aadhar Card or Government ID</div>
+                    </div>
+
+                    <!-- Age & Gender -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="age"><i class="fas fa-birthday-cake"></i> Age *</label>
+                            <input type="number" id="age" name="age" min="18" max="120" required placeholder="18">
+                            <div class="form-hint">Must be 18+ years</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender"><i class="fas fa-venus-mars"></i> Gender *</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                                <option value="prefer_not_to_say">Prefer not to say</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Profile Photo -->
+                    <div class="form-group">
+                        <label for="photo"><i class="fas fa-camera"></i> Profile Photo *</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload or drag and drop</p>
+                            <p class="file-types">JPG, PNG or GIF (Max. 2MB)</p>
+                            <input type="file" id="photo" name="photo" accept="image/*" required hidden>
+                        </div>
+                        <div id="previewContainer" class="hidden">
+                            <img id="imagePreview" src="#" alt="Preview">
+                            <button type="button" id="removeImage" class="btn-remove">
+                                <i class="fas fa-times"></i> Remove
+                            </button>
+                        </div>
+                        <div class="form-hint">Recent passport size photo with plain background</div>
+                    </div>
+                </div>
+
+                <!-- Eligibility Section -->
+                <div class="form-section">
+                    <h3><i class="fas fa-clipboard-check"></i> Eligibility Information</h3>
+
+                    <!-- Primary Category -->
+                    <div class="form-group">
+                        <label for="primaryCategory"><i class="fas fa-filter"></i> Primary Category *</label>
+                        <div class="select-wrapper">
+                            <select id="primaryCategory" name="primary_category" required>
+                                <option value="">Select Your Primary Category</option>
+                                {% for value, name in categories_choices %}
+                                <option value="{{ value }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                            <i class="fas fa-chevron-down select-arrow"></i>
+                        </div>
+                        <div class="form-hint">Select the category that best describes you</div>
+                    </div>
+
+                    <!-- Multi Categories -->
+                    <div class="form-group hidden" id="neutralCategories">
+                        <label><i class="fas fa-list-check"></i> Select All Applicable Categories *</label>
+                        <div class="checkbox-grid">
+                            {% for value, name in categories_choices %}
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="cat_{{ value }}" name="eligible_categories" value="{{ value }}">
+                                <label for="cat_{{ value }}">
+                                    <div class="checkbox-icon">
+                                        {% if value == "education" %}<i class="fas fa-graduation-cap"></i>
+                                        {% elif value == "farmer" %}<i class="fas fa-tractor"></i>
+                                        {% elif value == "women" %}<i class="fas fa-female"></i>
+                                        {% elif value == "employment" %}<i class="fas fa-briefcase"></i>
+                                        {% elif value == "health" %}<i class="fas fa-heartbeat"></i>
+                                        {% elif value == "senior" %}<i class="fas fa-user-tie"></i>
+                                        {% elif value == "disability" %}<i class="fas fa-wheelchair"></i>
+                                        {% elif value == "business" %}<i class="fas fa-chart-line"></i>
+                                        {% else %}<i class="fas fa-tag"></i>{% endif %}
+                                    </div>
+                                    <span>{{ name }}</span>
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Occupation -->
+                    <div class="form-group">
+                        <label for="occupation"><i class="fas fa-briefcase"></i> Occupation *</label>
+                        <input type="text" id="occupation" name="occupation" required placeholder="e.g., Farmer, Student, Business Owner">
+                    </div>
+                </div>
+
+                <!-- Contact & Security -->
+                <div class="form-section">
+                    <h3><i class="fas fa-address-book"></i> Contact & Security</h3>
+                    <div class="form-group">
+                        <label for="phone"><i class="fas fa-mobile-alt"></i> Mobile Number *</label>
+                        <div class="phone-input">
+                            <span class="country-code">+91</span>
+                            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required placeholder="9876543210">
+                        </div>
+                        <div class="form-hint">For OTP verification and notifications</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email Address (Optional)</label>
+                        <input type="email" id="email" name="email" placeholder="name@example.com">
+                        <div class="form-hint">For important communications</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password"><i class="fas fa-lock"></i> Password *</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="password" name="password" required placeholder="Create a strong password">
+                                <button type="button" class="toggle-password" id="togglePassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="strength-bar"></div><div class="strength-bar"></div><div class="strength-bar"></div><div class="strength-bar"></div>
+                                <span class="strength-text">Password Strength</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password"><i class="fas fa-lock"></i> Confirm Password *</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="confirm_password" name="confirm_password" required placeholder="Re-enter your password">
+                                <button type="button" class="toggle-password" id="toggleConfirmPassword">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-match" id="passwordMatch">
+                                <i class="fas fa-check-circle hidden"></i>
+                                <i class="fas fa-times-circle hidden"></i>
+                                <span>Passwords must match</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms & Submit -->
+                <div class="terms-section">
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="notify" name="notify" checked>
+                        <label for="notify"><div class="custom-checkbox"></div><span>....Receive scheme notifications and updates on mobile</span></label>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms"><div class="custom-checkbox"></div><span>....I agree to the <a href="#" class="link">Terms of Service</a> and <a href="#" class="link">Privacy Policy</a> of Yojana Setu Portal *</span></label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit"><i class="fas fa-user-check"></i> Complete Registration</button>
+                    <p class="login-link">Already registered? <a href="#" class="link">Login to your account</a></p>
+                </div>
+
+                <div class="security-footer">
+                    <p><i class="fas fa-shield-alt"></i> Your data is secured with 256-bit SSL encryption</p>
+                    <p><i class="fas fa-headset"></i> Need help? Call: 1800-XXX-XXXX</p>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-div-1">
+                <div class="footer-logo-container">
+                    <img src="{% static 'images/setulogoo.png' %}" alt="Yojana Setu Logo">
+                    <h3>Yojana Setu</h3>
+                    <p>GOVERNMENT PLATFORM</p>
+                </div>
+                <p class="footer-tagline">AI-driven platform connecting citizens with verified government welfare schemes.</p>
+            </div>
+            <div class="footer-div-2">
+                <div class="future-section"><i>📊</i><p>Smart governance insights coming soon</p></div>
+            </div>
+            <div class="footer-div-3">
+                <div class="future-section"><i>🧠</i><p>AI-enabled citizen assistance</p></div>
+            </div>
+            <div class="footer-div-4">
+                <h4 class="modules-heading">Quick Links</h4>
+                <ul class="module-links">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="{% url 'chatbot_page' %}">AI Chat Assistant</a></li>
+                </ul>
+            </div>
+            <div class="footer-div-5">
+                <div class="footer-search-box">
+                    <div class="search-title"><i>🔍</i><span>Find Your State / UT Portal</span></div>
+                    <div class="footer-search">
+                        <select id="state-select">
+                            <option value="">-- Select State/UT --</option>
+                            <option value="https://andhra.pradesh.gov.in">Andhra Pradesh</option>
+                            <option value="https://arunachalpradesh.gov.in">Arunachal Pradesh</option>
+                            <option value="https://assam.gov.in">Assam</option>
+                            <option value="https://bihar.gov.in">Bihar</option>
+                            <option value="https://chhattisgarh.gov.in">Chhattisgarh</option>
+                            <option value="https://goa.gov.in">Goa</option>
+                            <option value="https://gujarat.gov.in">Gujarat</option>
+                            <option value="https://haryana.gov.in">Haryana</option>
+                            <option value="https://himachal.nic.in">Himachal Pradesh</option>
+                            <option value="https://jharkhand.gov.in">Jharkhand</option>
+                            <option value="https://karnataka.gov.in">Karnataka</option>
+                            <option value="https://kerala.gov.in">Kerala</option>
+                            <option value="https://mp.gov.in">Madhya Pradesh</option>
+                            <option value="https://maharashtra.gov.in">Maharashtra</option>
+                            <option value="https://manipur.gov.in">Manipur</option>
+                            <option value="https://meghalaya.gov.in">Meghalaya</option>
+                            <option value="https://mizoram.gov.in">Mizoram</option>
+                            <option value="https://nagaland.gov.in">Nagaland</option>
+                            <option value="https://odisha.gov.in">Odisha</option>
+                            <option value="https://punjab.gov.in">Punjab</option>
+                            <option value="https://rajasthan.gov.in">Rajasthan</option>
+                            <option value="https://sikkim.gov.in">Sikkim</option>
+                            <option value="https://tn.gov.in">Tamil Nadu</option>
+                            <option value="https://telangana.gov.in">Telangana</option>
+                            <option value="https://tripura.gov.in">Tripura</option>
+                            <option value="https://up.gov.in">Uttar Pradesh</option>
+                            <option value="https://uttarakhand.gov.in">Uttarakhand</option>
+                            <option value="https://wb.gov.in">West Bengal</option>
+                            <option value="https://andaman.gov.in">Andaman & Nicobar Islands</option>
+                            <option value="https://chandigarh.gov.in">Chandigarh</option>
+                            <option value="https://dadra.gov.in">Dadra & Nagar Haveli and Daman & Diu</option>
+                            <option value="https://delhi.gov.in">Delhi (NCT)</option>
+                            <option value="https://lakshadweep.gov.in">Lakshadweep</option>
+                            <option value="https://jammu.gov.in">Jammu & Kashmir</option>
+                            <option value="https://ladakh.gov.in">Ladakh</option>
+                            <option value="https://puducherry.gov.in">Puducherry</option>
+                        </select>
+                    </div>
+                    <button class="footer-search-btn" onclick="showPortal()">🌐 Search Portal</button>
+                    <div class="footer-result-box" id="result-box"></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="{% static 'user_registration/js/registration.js' %}"></script>
+    <script>
+        function showPortal() {
+            var select = document.getElementById('state-select');
+            var value = select.value;
+            if (value) {
+                window.open(value, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>

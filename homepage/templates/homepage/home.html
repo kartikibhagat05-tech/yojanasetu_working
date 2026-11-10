@@ -1,0 +1,331 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yojana Setu</title>
+    <link rel="stylesheet" href="{% static 'homepage/css/home.css' %}">
+    <script src="{% static 'homepage/js/home.js' %}" defer></script>
+</head>
+<body>
+<script>
+function toggleTheme() {
+    document.body.classList.toggle("dark-theme");
+    if (document.body.classList.contains("dark-theme")) {
+        localStorage.setItem("theme", "dark");
+    } else {
+        localStorage.setItem("theme", "light");
+    }
+}
+window.onload = function () {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-theme");
+    }
+};
+</script>
+
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="nav-wrapper">
+            <div class="logo">
+                <img src="{% static 'images/setulogoo.png' %}" alt="Yojana Setu Logo" class="navbar-logo">
+                <div class="logo-text">
+                    <h1>Yojana Setu</h1>
+                    <p>GOVERNMENT PLATFORM</p>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="{% url 'scheme_categories' %}">Schemes</a></li>
+                    <li><a href="{% url 'chatbot_page' %}">Recommendation</a></li>
+                    <li><a href="{% url 'vacancy:category_list' %}">Vacancies</a></li>
+                    <li><a href="{% url 'homepage:about' %}">About</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="{% url 'user_registration:register' %}" class="btn-login">Register</a>
+                <a href="#" class="btn-login">Login</a>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- News Ticker -->
+<div class="news-ticker">
+    <span>Latest Updates: New schemes launched for farmers | Scholarship deadlines extended | Health insurance coverage expanded | Employment drive announced...</span>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-logo">
+        <img src="{% static 'images/setulogoo.png' %}" alt="Setu Logo">
+    </div>
+    <div class="hero-content">
+        <h2>Empowering Citizens Through Smart Scheme Access</h2>
+        <p>Yojana Setu uses AI to connect citizens with government welfare schemes transparently and efficiently.</p>
+
+        <div class="search-section">
+            <form method="get" action="{% url 'scheme_by_category' %}">
+                <div class="search-box">
+                    <div class="search-filter">
+                        <select class="filter-select" name="category" required>
+                            {% for category, count in category_counts.items %}
+                                <option value="{{ category }}">{{ category|title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="search-btn">Search Schemes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Dashboard Section -->
+<section class="categories-dashboard">
+    <div class="container">
+        <h2 class="dashboard-title">Schemes &amp; Vacancies Dashboard</h2>
+        <div class="categories-grid">
+
+            <!-- COLUMN 1: Available Categories in Schemes -->
+            <div class="category-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-clipboard-list"></i> Available Categories in Schemes</h3>
+                    <p>Browse schemes by category</p>
+                </div>
+                <div class="categories-list">
+                    {% for category, count in category_counts.items %}
+                        <div class="category-item">
+                            <i class="fas fa-tag"></i> {{ category|title }}
+                            <span class="category-count">{{ count }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- COLUMN 2: Available Vacancies Categories (static for now) -->
+            <div class="category-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-briefcase"></i> Available Vacancies Categories</h3>
+                    <p>Latest government job openings</p>
+                </div>
+                <div class="categories-list">
+                    <div class="category-item"><i class="fas fa-building"></i> Central Government Jobs</div>
+                    <div class="category-item"><i class="fas fa-map-marker-alt"></i> State Government Jobs</div>
+                    <div class="category-item"><i class="fas fa-industry"></i> PSU</div>
+                    <div class="category-item"><i class="fas fa-university"></i> Banking Jobs</div>
+                    <div class="category-item"><i class="fas fa-shield-alt"></i> Insurance Sector</div>
+                    <div class="category-item"><i class="fas fa-train"></i> Railway Jobs</div>
+                    <div class="category-item"><i class="fas fa-fighter-jet"></i> Defence Jobs</div>
+                    <div class="category-item"><i class="fas fa-gavel"></i> Judiciary Jobs</div>
+                    <div class="category-item"><i class="fas fa-chalkboard-teacher"></i> Teaching Jobs</div>
+                    <div class="category-item"><i class="fas fa-university"></i> Govt College &amp; University Jobs</div>
+                    <div class="category-item"><i class="fas fa-ambulance"></i> Medical &amp; Healthcare Jobs</div>
+                    <div class="category-item"><i class="fas fa-cogs"></i> Engineering &amp; Technical</div>
+                    <div class="category-item"><i class="fas fa-road"></i> PWD Jobs</div>
+                    <div class="category-item"><i class="fas fa-bolt"></i> Electricity Board Jobs</div>
+                    <div class="category-item"><i class="fas fa-water"></i> Irrigation Department Jobs</div>
+                    <div class="category-item"><i class="fas fa-city"></i> Municipal Corporation Jobs</div>
+                    <div class="category-item"><i class="fas fa-seedling"></i> Agriculture Dept Jobs</div>
+                    <div class="category-item"><i class="fas fa-tree"></i> Forest Dept Jobs</div>
+                    <div class="category-item"><i class="fas fa-mail-bulk"></i> Postal Dept Jobs</div>
+                    <div class="category-item"><i class="fas fa-flask"></i> Research Organizations Jobs</div>
+                    <div class="category-item"><i class="fas fa-rocket"></i> Space &amp; Atomic Energy Jobs</div>
+                    <div class="category-item"><i class="fas fa-users-cog"></i> UPSC / State PSC</div>
+                    <div class="category-item"><i class="fas fa-user-tie"></i> SSC</div>
+                    <div class="category-item"><i class="fas fa-graduation-cap"></i> Apprenticeship</div>
+                    <div class="category-item"><i class="fas fa-laptop"></i> Internship</div>
+                </div>
+            </div>
+
+            <!-- COLUMN 3: Total Schemes -->
+            <div class="category-card stats-card">
+                <div class="stats-icon">
+                    <i class="fas fa-folder-open"></i>
+                </div>
+                <div class="stats-number">{{ total_schemes }}</div>
+                <div class="stats-label">Total Schemes</div>
+                <div class="stats-sub">Available on Portal</div>
+                <div style="margin-top: 20px; font-size: 0.9rem; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 50px;">
+                    <i class="fas fa-database"></i> Last Updated: Today
+                </div>
+            </div>
+
+            <!-- COLUMN 4: Total Vacancies -->
+            <div class="category-card stats-card" style="background: linear-gradient(135deg, #047857, #065F46);">
+                <div class="stats-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stats-number">3,562</div>
+                <div class="stats-label">Total Vacancies</div>
+                <div class="stats-sub">Open Positions</div>
+                <div style="margin-top: 20px; font-size: 0.9rem; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 50px;">
+                    <i class="fas fa-calendar-alt"></i> New: 342 Jobs Today
+                </div>
+            </div>
+
+            <!-- COLUMN 5: Robot Setu Mitra -->
+            <a href="{% url 'chatbot_page' %}" class="robot-card" style="display: inline-block;">
+                <img src="{% static 'images/setumitra.png' %}"
+                     alt="Setu Mitra"
+                     style="
+                         width: 250px;
+                         height: 500px;
+                         cursor: pointer;
+                         display: block;
+                         margin: 0 auto;
+                     " />
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <div class="section-title">
+            <h3>How Yojana Setu Works</h3>
+            <p>AI-powered platform simplifies government scheme access for citizens</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h4>AI Matching</h4>
+                <p>Smartly matches users with relevant schemes based on profile</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h4>Eligibility Check</h4>
+                <p>Instantly verify eligibility based on income, location, and category</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h4>Quick Application</h4>
+                <p>Apply for schemes directly through our platform with minimal documentation</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portals Section -->
+<section class="portals">
+    <div class="container">
+        <div class="section-title">
+            <h3>Top Essential Portals</h3>
+        </div>
+        <div class="portal-grid">
+            <a href="https://msbte.org.in" target="_blank" class="portal-card">
+                <img src="{% static 'images/msbte.png' %}" alt="MSBTE"><h4>MSBTE</h4>
+            </a>
+            <a href="https://mahadbt.maharashtra.gov.in" target="_blank" class="portal-card">
+                <img src="{% static 'images/mahadbt.png' %}" alt="MahaDBT"><h4>MahaDBT</h4>
+            </a>
+            <a href="https://cetcell.mahacet.org" target="_blank" class="portal-card">
+                <img src="{% static 'images/cet.jpg' %}" alt="CET"><h4>CET</h4>
+            </a>
+            <a href="https://india.gov.in" target="_blank" class="portal-card">
+                <img src="{% static 'images/india.jpg' %}" alt="India Portal"><h4>India Portal</h4>
+            </a>
+            <a href="https://uidai.gov.in" target="_blank" class="portal-card">
+                <img src="{% static 'images/uidai.jpg' %}" alt="UIDAI"><h4>UIDAI</h4>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer Section -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-div-1">
+            <div class="footer-logo-container">
+                <img src="{% static 'images/setulogoo.png' %}" alt="Yojana Setu Logo">
+                <h3>Yojana Setu</h3>
+                <p>GOVERNMENT PLATFORM</p>
+            </div>
+            <p class="footer-tagline">AI-driven platform connecting citizens with verified government welfare schemes.</p>
+        </div>
+        <div class="footer-div-2">
+            <div class="future-section"><i>📊</i><p>Smart governance insights coming soon</p></div>
+        </div>
+        <div class="footer-div-3">
+            <div class="future-section"><i>🧠</i><p>AI-enabled citizen assistance</p></div>
+        </div>
+        <div class="footer-div-4">
+            <h4 class="modules-heading">Quick Links</h4>
+            <ul class="module-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="{% url 'chatbot_page' %}">AI Chat Assistant</a></li>
+            </ul>
+        </div>
+        <div class="footer-div-5">
+            <div class="footer-search-box">
+                <div class="search-title"><i>🔍</i><span>Find Your State / UT Portal</span></div>
+                <div class="footer-search">
+                    <select id="state-select">
+                        <option value="">-- Select State/UT --</option>
+                        <option value="https://andhra.pradesh.gov.in">Andhra Pradesh</option>
+                        <option value="https://arunachalpradesh.gov.in">Arunachal Pradesh</option>
+                        <option value="https://assam.gov.in">Assam</option>
+                        <option value="https://bihar.gov.in">Bihar</option>
+                        <option value="https://chhattisgarh.gov.in">Chhattisgarh</option>
+                        <option value="https://goa.gov.in">Goa</option>
+                        <option value="https://gujarat.gov.in">Gujarat</option>
+                        <option value="https://haryana.gov.in">Haryana</option>
+                        <option value="https://himachal.nic.in">Himachal Pradesh</option>
+                        <option value="https://jharkhand.gov.in">Jharkhand</option>
+                        <option value="https://karnataka.gov.in">Karnataka</option>
+                        <option value="https://kerala.gov.in">Kerala</option>
+                        <option value="https://mp.gov.in">Madhya Pradesh</option>
+                        <option value="https://maharashtra.gov.in">Maharashtra</option>
+                        <option value="https://manipur.gov.in">Manipur</option>
+                        <option value="https://meghalaya.gov.in">Meghalaya</option>
+                        <option value="https://mizoram.gov.in">Mizoram</option>
+                        <option value="https://nagaland.gov.in">Nagaland</option>
+                        <option value="https://odisha.gov.in">Odisha</option>
+                        <option value="https://punjab.gov.in">Punjab</option>
+                        <option value="https://rajasthan.gov.in">Rajasthan</option>
+                        <option value="https://sikkim.gov.in">Sikkim</option>
+                        <option value="https://tn.gov.in">Tamil Nadu</option>
+                        <option value="https://telangana.gov.in">Telangana</option>
+                        <option value="https://tripura.gov.in">Tripura</option>
+                        <option value="https://up.gov.in">Uttar Pradesh</option>
+                        <option value="https://uttarakhand.gov.in">Uttarakhand</option>
+                        <option value="https://wb.gov.in">West Bengal</option>
+                        <option value="https://andaman.gov.in">Andaman &amp; Nicobar Islands</option>
+                        <option value="https://chandigarh.gov.in">Chandigarh</option>
+                        <option value="https://dadra.gov.in">Dadra &amp; Nagar Haveli and Daman &amp; Diu</option>
+                        <option value="https://delhi.gov.in">Delhi (NCT)</option>
+                        <option value="https://lakshadweep.gov.in">Lakshadweep</option>
+                        <option value="https://jammu.gov.in">Jammu &amp; Kashmir</option>
+                        <option value="https://ladakh.gov.in">Ladakh</option>
+                        <option value="https://puducherry.gov.in">Puducherry</option>
+                    </select>
+                </div>
+                <button class="footer-search-btn" onclick="showPortal()">🌐 Search Portal</button>
+                <div class="footer-result-box" id="result-box"></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+function showPortal() {
+    var select = document.getElementById('state-select');
+    var value = select.value;
+    if (value) {
+        window.open(value, '_blank');
+    }
+}
+</script>
+
+</body>
+</html>

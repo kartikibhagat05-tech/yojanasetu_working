@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YojanaSetu Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 700px;
+            margin: 50px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+
+        .message {
+            margin: 10px 0;
+            display: flex;
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .user-message .text {
+            background: #007bff;
+            color: white;
+        }
+
+        .bot-message .text {
+            background: #e2e3e5;
+            color: #333;
+        }
+
+        .text {
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .chat-input button {
+            padding: 15px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background: #0056b3;
+        }
+
+        .scheme {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 10px;
+        }
+
+        .scheme a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .scheme a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">YojanaSetu Chatbot</div>
+        <div class="chat-messages" id="chat-messages">
+            {% if user_message %}
+            <div class="message user-message">
+                <div class="text">{{ user_message }}</div>
+            </div>
+            {% endif %}
+            <div class="message bot-message">
+                <div class="text">{{ response }}</div>
+            </div>
+            {% if schemes %}
+                {% for scheme in schemes %}
+                <div class="scheme">
+                    <strong>{{ scheme.name }}</strong> ({{ scheme.category }})<br>
+                    <a href="{{ scheme.link }}" target="_blank">{{ scheme.link }}</a>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <form class="chat-input" method="get" action="">
+            <input type="text" name="message" placeholder="Type your message..." autocomplete="off" required>
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <script>
+        // Auto-scroll to bottom
+        const chatMessages = document.getElementById('chat-messages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    </script>
+</body>
+</html>

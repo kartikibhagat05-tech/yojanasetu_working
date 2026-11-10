@@ -1,0 +1,409 @@
+{% comment %} 
+Swarda Will write the Html code for the about page of the website. The about page will include information about the website, its purpose, and the team behind it. It will also include contact information and links to social media profiles. {% endcomment %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Yojana Setu</title>
+    <style>
+        /* --- General Styles & Variables --- */
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #e8f5e9;
+            --accent-green: #4caf50;
+            --text-dark: #2c3e50;
+            --white: #ffffff;
+            --gray: #f4f4f4;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            background-color: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header Styles --- */
+        .header {
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-logo {
+            height: 50px;
+        }
+
+        .logo-text h1 {
+            margin: 0;
+            font-size: 24px;
+            color: var(--primary-green);
+        }
+
+        .logo-text p {
+            margin: 0;
+            font-size: 10px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-green);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-login {
+            background: var(--primary-green);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        /* --- About Page Content --- */
+        .about-hero {
+            background-color: var(--light-green);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .about-hero h2 {
+            font-size: 36px;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+
+        .about-hero p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .team-section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 30px;
+            color: var(--primary-green);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .team-card {
+            background: var(--white);
+            border: 1px solid var(--light-green);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.1);
+        }
+
+        .team-img {
+            width: 120px;
+            height: 120px;
+            background: var(--gray);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            border: 3px solid var(--primary-green);
+        }
+
+        .team-card h4 {
+            margin: 10px 0 5px;
+            color: var(--primary-green);
+        }
+
+        .team-card p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* --- Footer Styles --- */
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo-container img {
+            height: 40px;
+            margin-bottom: 10px;
+        }
+
+        .module-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .module-links li {
+            margin-bottom: 10px;
+        }
+
+        .module-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .module-links a:hover {
+            color: var(--accent-green);
+        }
+
+        .footer-search-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #state-select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .team-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="container">
+        <div class="nav-wrapper">
+            <div class="logo">
+                {% comment %} <img src="{% static 'images/setulogoo.png' %}" alt="Yojana Setu Logo" class="navbar-logo"> {% endcomment %}
+                <div class="logo-text">
+                    <h1>Yojana Setu</h1>
+                    <p>GOVERNMENT PLATFORM</p>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="{% url 'scheme_categories' %}">Schemes</a></li>
+                    <li><a href="{% url 'chatbot_page' %}">Recommendation</a></li>
+                    <li><a href="#">Vacancies</a></li>
+                    <li><a href="{% url 'homepage:about' %}">About</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="{% url 'user_registration:register' %}" class="btn-login">Register</a>
+                <a href="#" class="btn-login">Login</a>
+                <button class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="about-hero">
+        <div class="container">
+            <h2>Bridging the Gap Between Citizens & Welfare</h2>
+            <p>Yojana Setu is an AI-driven initiative dedicated to ensuring that every eligible citizen finds and accesses the government benefits they deserve. Our mission is transparency, accessibility, and empowerment through technology.</p>
+        </div>
+    </section>
+
+    <section class="team-section container">
+        <h3 class="section-title">Meet Our Team</h3>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-img">👤</div>
+                <h4>Team Lead</h4>
+                <p>Project Visionary & Lead Developer</p>
+            </div>
+            <div class="team-card">
+                <div class="team-img">👤</div>
+                <h4>AI Engineer</h4>
+                <p>Machine Learning & Recommendation Logic</p>
+            </div>
+            <div class="team-card">
+                <div class="team-img">👤</div>
+                <h4>Frontend Dev</h4>
+                <p>UI/UX Design & Responsive Architecture</p>
+            </div>
+            <div class="team-card">
+                <div class="team-img">👤</div>
+                <h4>Backend Dev</h4>
+                <p>Database Management & API Integration</p>
+            </div>
+            <div class="team-card">
+                <div class="team-img">👤</div>
+                <h4>Data Analyst</h4>
+                <p>Scheme Verification & Data Accuracy</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-div-1">
+            <div class="footer-logo-container">
+                <img src="{% static 'images/setulogoo.png' %}" alt="Yojana Setu Logo">
+                <h3>Yojana Setu</h3>
+                <p>GOVERNMENT PLATFORM</p>
+            </div>
+            <p class="footer-tagline">AI-driven platform connecting citizens with verified government welfare schemes.</p>
+        </div>
+        <div class="footer-div-2">
+            <div class="future-section"><i>📊</i><p>Smart governance insights coming soon</p></div>
+        </div>
+        <div class="footer-div-3">
+            <div class="future-section"><i>🧠</i><p>AI-enabled citizen assistance</p></div>
+        </div>
+        <div class="footer-div-4">
+            <h4 class="modules-heading">Quick Links</h4>
+            <ul class="module-links">
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Help Center</a></li>
+                <li><a href="{% url 'chatbot_page' %}">AI Chat Assistant</a></li>
+            </ul>
+        </div>
+        <div class="footer-div-5">
+            <div class="footer-search-box">
+                <div class="search-title"><i>🔍</i><span>Find Your State / UT Portal</span></div>
+                <div class="footer-search">
+                    <select id="state-select">
+                        <option value="">-- Select State/UT --</option>
+                        <option value="https://andhra.pradesh.gov.in">Andhra Pradesh</option>
+                        <option value="https://arunachalpradesh.gov.in">Arunachal Pradesh</option>
+                        <option value="https://assam.gov.in">Assam</option>
+                        <option value="https://bihar.gov.in">Bihar</option>
+                        <option value="https://chhattisgarh.gov.in">Chhattisgarh</option>
+                        <option value="https://goa.gov.in">Goa</option>
+                        <option value="https://gujarat.gov.in">Gujarat</option>
+                        <option value="https://haryana.gov.in">Haryana</option>
+                        <option value="https://himachal.nic.in">Himachal Pradesh</option>
+                        <option value="https://jharkhand.gov.in">Jharkhand</option>
+                        <option value="https://karnataka.gov.in">Karnataka</option>
+                        <option value="https://kerala.gov.in">Kerala</option>
+                        <option value="https://mp.gov.in">Madhya Pradesh</option>
+                        <option value="https://maharashtra.gov.in">Maharashtra</option>
+                        <option value="https://manipur.gov.in">Manipur</option>
+                        <option value="https://meghalaya.gov.in">Meghalaya</option>
+                        <option value="https://mizoram.gov.in">Mizoram</option>
+                        <option value="https://nagaland.gov.in">Nagaland</option>
+                        <option value="https://odisha.gov.in">Odisha</option>
+                        <option value="https://punjab.gov.in">Punjab</option>
+                        <option value="https://rajasthan.gov.in">Rajasthan</option>
+                        <option value="https://sikkim.gov.in">Sikkim</option>
+                        <option value="https://tn.gov.in">Tamil Nadu</option>
+                        <option value="https://telangana.gov.in">Telangana</option>
+                        <option value="https://tripura.gov.in">Tripura</option>
+                        <option value="https://up.gov.in">Uttar Pradesh</option>
+                        <option value="https://uttarakhand.gov.in">Uttarakhand</option>
+                        <option value="https://wb.gov.in">West Bengal</option>
+                        <option value="https://andaman.gov.in">Andaman & Nicobar Islands</option>
+                        <option value="https://chandigarh.gov.in">Chandigarh</option>
+                        <option value="https://dadra.gov.in">Dadra & Nagar Haveli and Daman & Diu</option>
+                        <option value="https://delhi.gov.in">Delhi (NCT)</option>
+                        <option value="https://lakshadweep.gov.in">Lakshadweep</option>
+                        <option value="https://jammu.gov.in">Jammu & Kashmir</option>
+                        <option value="https://ladakh.gov.in">Ladakh</option>
+                        <option value="https://puducherry.gov.in">Puducherry</option>
+                    </select>
+                </div>
+                <button class="footer-search-btn" onclick="showPortal()">🌐 Search Portal</button>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+function showPortal() {
+    var select = document.getElementById('state-select');
+    var value = select.value;
+    if (value) {
+        window.open(value, '_blank');
+    }
+}
+
+function toggleTheme() {
+    document.body.style.filter = document.body.style.filter === 'invert(1)' ? 'invert(0)' : 'invert(1)';
+}
+</script>
+
+</body>
+</html>

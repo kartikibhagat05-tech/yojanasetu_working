@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vacancies in {{ category.name }} - Yojana Setu</title>
+</head>
+<body>
+<h1>Vacancies in {{ category.name }}</h1>
+<ul>
+  {% for vacancy in vacancies %}
+    <li>
+      <strong>{{ vacancy.title }}</strong> - {{ vacancy.department }} - {{ vacancy.job_location }}
+      <a href="{{ vacancy.apply_link }}" target="_blank">Apply</a>
+    </li>
+  {% empty %}
+    <li>No vacancies found in this category.</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'vacancy:category_list' %}">Back to Categories</a>
+</body>
+</html>
